@@ -2,8 +2,10 @@ import { getUserAccounts } from "@/actions/dashboard";
 import { defaultCategories } from "@/data/categories";
 import { AddTransactionForm } from "../_components/transaction-form";
 import { getTransaction } from "@/actions/transaction";
+import { checkUser } from "@/lib/checkUser";
 
 export default async function AddTransactionPage({ searchParams }) {
+  await checkUser();
   const accounts = await getUserAccounts();
   const editId = searchParams?.edit;
 

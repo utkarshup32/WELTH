@@ -7,6 +7,8 @@ import { DarkModeProvider } from "@/components/DarkModeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
 export const metadata = {
   title: "Welth",
   description: "One stop Finance Platform",
@@ -14,7 +16,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider publishableKey={publishableKey}>
       <DarkModeProvider>
         <html lang="en" suppressHydrationWarning={true}>
           <head>
@@ -22,11 +24,17 @@ export default function RootLayout({ children }) {
           </head>
           <body className={`${inter.className} bg-background text-foreground dark:bg-black dark:text-white`}>
             <Header />
-            <main className="min-h-screen">{children}</main>
+            <main className="min-h-screen">
+              {/* Test element for dark mode */}
+              <div className="p-4 bg-white dark:bg-gray-900 text-black dark:text-white rounded-lg mb-4 text-center">
+                This box should change color in dark mode!
+              </div>
+              {children}
+            </main>
             <Toaster richColors />
             <footer className="bg-blue-50 py-12 dark:bg-neutral-900 dark:text-neutral-300">
               <div className="container mx-auto px-4 text-center text-gray-600 dark:text-neutral-300">
-                <p>Made with 💗 by RoadsideCoder</p>
+                <p>All Rights Reserved @Utkarsh Dwivedi</p>
               </div>
             </footer>
           </body>

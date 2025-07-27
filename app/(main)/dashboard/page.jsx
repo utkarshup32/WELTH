@@ -8,8 +8,10 @@ import { BudgetProgress } from "./_components/budget-progress";
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus } from "lucide-react";
 import { DashboardOverview } from "./_components/transaction-overview";
+import { checkUser } from "@/lib/checkUser";
 
 export default async function DashboardPage() {
+  await checkUser();
   const [accounts, transactions] = await Promise.all([
     getUserAccounts(),
     getDashboardData(),

@@ -1,11 +1,13 @@
 import { Suspense } from "react";
-import { getAccountWithTransactions } from "@/actions/account";
+import { getAccountWithTransactions } from "@/actions/accounts";
 import { BarLoader } from "react-spinners";
 import { TransactionTable } from "../_components/transaction-table";
 import { notFound } from "next/navigation";
 import { AccountChart } from "../_components/account-chart";
+import { checkUser } from "@/lib/checkUser";
 
 export default async function AccountPage({ params }) {
+  await checkUser();
   const accountData = await getAccountWithTransactions(params.id);
 
   if (!accountData) {
