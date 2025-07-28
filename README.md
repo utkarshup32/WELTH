@@ -1,5 +1,5 @@
 <div align="center">
-<h1>💰 Wealth</h1>
+<h1>💰 Welth</h1>
 <p><strong>Your personal AI-powered finance platform</strong></p>
 </div>
 
