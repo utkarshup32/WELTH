@@ -88,24 +88,24 @@ export const howItWorksData = [
 // Testimonials Data
 export const testimonialsData = [
   {
-    name: "Sarah Johnson",
+    name: "Jeff Bezoz",
     role: "Small Business Owner",
-    image: "https://randomuser.me/api/portraits/women/75.jpg",
+    image: "/images/bezoz.jpg",
     quote:
       "Welth has transformed how I manage my business finances. The AI insights have helped me identify cost-saving opportunities I never knew existed.",
   },
   {
-    name: "Michael Chen",
-    role: "Freelancer",
-    image: "https://randomuser.me/api/portraits/men/75.jpg",
+    name: "Radheshyam Tiwari",
+    role: "Goverment Employee",
+    image: "/images/worker.jpg",
     quote:
-      "The receipt scanning feature saves me hours each month. Now I can focus on my work instead of manual data entry and expense tracking.",
+      "रसीद स्कैनिंग सुविधा हर महीने मेरे घंटों बचाती है। अब मैं मैन्युअल डेटा प्रविष्टि और खर्चों को ट्रैक करने के बजाय अपने काम पर ध्यान केंद्रित कर सकता हूँ।", // Updated quote in Hindi
   },
   {
-    name: "Emily Rodriguez",
+    name: "Raju",
     role: "Financial Advisor",
-    image: "https://randomuser.me/api/portraits/women/74.jpg",
+    image: "/images/raju.jpg",
     quote:
-      "I recommend Welth to all my clients. The multi-currency support and detailed analytics make it perfect for international investors.",
+      "Arre ye Welth toh kamaal hai! Pehle toh paise aate hi gayab ho jaate the, pata hi nahi chalta tha kahaan gaye. Ab sab hisab-kitab ek jagah, aur ye AI toh aise tips deta hai jaise khud Baburao ho! Ab toh bas paise hi paise honge!.",
   },
 ];

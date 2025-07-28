@@ -72,7 +72,7 @@ export default function RootLayout({ children }) {
                     </a>
                   </Button>
                 </div>
-                <p className="text-xs">&copy; {new Date().getFullYear()} WELTH. All Rights Reserved.</p>
+                <p className="text-xs">&copy; {new Date().getFullYear()}   WELTH. All Rights Reserved.</p>
               </div>
             </footer>
           </body>
