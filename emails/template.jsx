@@ -9,8 +9,9 @@ import {
   Text,
 } from "@react-email/components";
 
-// Dummy data for preview
-const PREVIEW_DATA = {
+// Dummy data for preview (React Email preview server will typically pick this up)
+// Exporting PREVIEW_DATA is important for the preview server to discover it.
+export const PREVIEW_DATA = {
   monthlyReport: {
     userName: "John Doe",
     type: "monthly-report",
@@ -48,8 +49,39 @@ const PREVIEW_DATA = {
 export default function EmailTemplate({
   userName = "",
   type = "monthly-report",
-  data = {},
+  data: initialData = {}, // Ensure initialData defaults to an object if undefined
 }) {
+  // --- Debugging Logs ---
+  console.log("EmailTemplate props received:");
+  console.log("  userName:", userName);
+  console.log("  type:", type);
+  console.log("  initialData:", initialData);
+  // --- End Debugging Logs ---
+
+  // Ensure data is always an object, handling cases where initialData might be explicitly null
+  const data = initialData || {};
+
+  // Destructure data for easier access and provide default empty objects/arrays for nested structures
+  const {
+    month,
+    stats: rawStats = {}, // Get raw stats, default to empty object if undefined
+    insights = [], // Default to empty array if insights is undefined
+  } = data;
+
+  // Ensure stats is an object before attempting to destructure it, handling null cases
+  const stats = rawStats || {};
+
+  // --- Debugging Logs ---
+  console.log("  Processed data:", data);
+  console.log("  Processed stats:", stats);
+  // --- End Debugging Logs ---
+
+  const {
+    totalIncome = 0, // Default to 0 if not present
+    totalExpenses = 0, // Default to 0 if not present
+    byCategory = {}, // Default to empty object if byCategory is undefined
+  } = stats;
+
   if (type === "monthly-report") {
     return (
       <Html>
@@ -61,32 +93,33 @@ export default function EmailTemplate({
 
             <Text style={styles.text}>Hello {userName},</Text>
             <Text style={styles.text}>
-              Here&rsquo;s your financial summary for {data?.month}:
+              Here&rsquo;s your financial summary for {month}:
             </Text>
 
             {/* Main Stats */}
             <Section style={styles.statsContainer}>
               <div style={styles.stat}>
                 <Text style={styles.text}>Total Income</Text>
-                <Text style={styles.heading}>${data?.stats.totalIncome}</Text>
+                {/* Line 71: This is the line the error points to */}
+                <Text style={styles.heading}>${totalIncome}</Text>
               </div>
               <div style={styles.stat}>
                 <Text style={styles.text}>Total Expenses</Text>
-                <Text style={styles.heading}>${data?.stats.totalExpenses}</Text>
+                <Text style={styles.heading}>${totalExpenses}</Text>
               </div>
               <div style={styles.stat}>
                 <Text style={styles.text}>Net</Text>
                 <Text style={styles.heading}>
-                  ${data?.stats.totalIncome - data?.stats.totalExpenses}
+                  ${totalIncome - totalExpenses}
                 </Text>
               </div>
             </Section>
 
             {/* Category Breakdown */}
-            {data?.stats?.byCategory && (
+            {Object.keys(byCategory).length > 0 && ( // Check if byCategory has keys
               <Section style={styles.section}>
                 <Heading style={styles.heading}>Expenses by Category</Heading>
-                {Object.entries(data?.stats.byCategory).map(
+                {Object.entries(byCategory).map( // Iterate over the destructured byCategory
                   ([category, amount]) => (
                     <div key={category} style={styles.row}>
                       <Text style={styles.text}>{category}</Text>
@@ -98,10 +131,10 @@ export default function EmailTemplate({
             )}
 
             {/* AI Insights */}
-            {data?.insights && (
+            {insights.length > 0 && ( // Check if insights array has items
               <Section style={styles.section}>
                 <Heading style={styles.heading}>Welth Insights</Heading>
-                {data.insights.map((insight, index) => (
+                {insights.map((insight, index) => (
                   <Text key={index} style={styles.text}>
                     • {insight}
                   </Text>
@@ -120,6 +153,14 @@ export default function EmailTemplate({
   }
 
   if (type === "budget-alert") {
+    // Ensure data is an object before destructuring, handling null cases for data itself
+    const budgetData = data || {};
+    const {
+      percentageUsed = 0,
+      budgetAmount = 0,
+      totalExpenses: budgetTotalExpenses = 0, // Rename to avoid conflict if needed
+    } = budgetData;
+
     return (
       <Html>
         <Head />
@@ -129,22 +170,22 @@ export default function EmailTemplate({
             <Heading style={styles.title}>Budget Alert</Heading>
             <Text style={styles.text}>Hello {userName},</Text>
             <Text style={styles.text}>
-              You&rsquo;ve used {data?.percentageUsed.toFixed(1)}% of your
+              You&rsquo;ve used {Number(percentageUsed).toFixed(1)}% of your
               monthly budget.
             </Text>
             <Section style={styles.statsContainer}>
               <div style={styles.stat}>
                 <Text style={styles.text}>Budget Amount</Text>
-                <Text style={styles.heading}>${data?.budgetAmount}</Text>
+                <Text style={styles.heading}>${budgetAmount}</Text>
               </div>
               <div style={styles.stat}>
                 <Text style={styles.text}>Spent So Far</Text>
-                <Text style={styles.heading}>${data?.totalExpenses}</Text>
+                <Text style={styles.heading}>${budgetTotalExpenses}</Text>
               </div>
               <div style={styles.stat}>
                 <Text style={styles.text}>Remaining</Text>
                 <Text style={styles.heading}>
-                  ${data?.budgetAmount - data?.totalExpenses}
+                  ${budgetAmount - budgetTotalExpenses}
                 </Text>
               </div>
             </Section>
@@ -153,6 +194,8 @@ export default function EmailTemplate({
       </Html>
     );
   }
+  // If no type matches, return null or a default empty template
+  return null;
 }
 
 const styles = {

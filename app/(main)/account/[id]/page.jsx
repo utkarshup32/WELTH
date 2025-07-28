@@ -4,11 +4,14 @@ import { BarLoader } from "react-spinners";
 import { TransactionTable } from "../_components/transaction-table";
 import { notFound } from "next/navigation";
 import { AccountChart } from "../_components/account-chart";
-import { checkUser } from "@/lib/checkUser";
+import { checkUser } from "@/lib/checkUser"; // Assuming checkUser is still needed and will be fixed
 
 export default async function AccountPage({ params }) {
-  await checkUser();
-  const accountData = await getAccountWithTransactions(params.id);
+  await checkUser(); // Ensure checkUser is awaited if it does async work
+
+  // FIX: Await params before accessing its properties
+  const awaitedParams = await params;
+  const accountData = await getAccountWithTransactions(awaitedParams.id);
 
   if (!accountData) {
     notFound();
