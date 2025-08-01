@@ -1,9 +1,11 @@
+import { DarkModeProvider } from "@/components/DarkModeProvider";
+import ThemeScript from "@/components/ThemeScript";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
-import { DarkModeProvider } from "@/components/DarkModeProvider";
+
 import { Button } from "@/components/ui/button"; // Import Button component
 import { Github, Linkedin } from "lucide-react"; // Import icons from lucide-react
 

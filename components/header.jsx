@@ -9,8 +9,8 @@ import { DarkModeToggle } from "./DarkModeToggle";
 
 const Header = () => {
   return (
-    <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
-      <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
+    <header className="fixed top-0 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md z-50 border-b dark:border-slate-700">
+     <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/">
           <Image
             src={"/logo.png"}
@@ -24,12 +24,12 @@ const Header = () => {
         {/* Navigation Links - Different for signed in/out users */}
         <div className="hidden md:flex items-center space-x-8">
           <SignedOut>
-            <a href="#features" className="text-gray-600 hover:text-blue-600">
-              Features
+           <a href="#features" className="text-gray-600 dark:text-gray-300 hover:text-blue-600">
+            Features
             </a>
             <a
               href="#testimonials"
-              className="text-gray-600 hover:text-blue-600"
+              className="text-gray-600 dark:text-gray-300 hover:text-blue-600"
             >
               Testimonials
             </a>

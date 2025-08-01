@@ -1,43 +1,9 @@
-# 💰 Welth – Full Stack AI Finance Platform
+# Full Stack AI Fianace Platform with Next JS, Supabase, Tailwind, Prisma, Inngest, ArcJet, Shadcn UI Tutorial 🔥🔥
+## https://youtu.be/egS6fnZAdzk
 
-A modern, AI-powered finance platform built with Next.js, Supabase, Tailwind CSS, Prisma, Inngest, ArcJet, and Shadcn UI.
+<img width="1470" alt="Screenshot 2024-12-10 at 9 45 45 AM" src="https://github.com/user-attachments/assets/1bc50b85-b421-4122-8ba4-ae68b2b61432">
 
-[![YouTube Tutorial](https://img.shields.io/badge/YouTube-Tutorial-red?logo=youtube)](https://youtu.be/egS6fnZAdzk)
-
-<img width="100%" alt="Welth Screenshot" src="https://github.com/user-attachments/assets/1bc50b85-b421-4122-8ba4-ae68b2b61432">
-
----
-
-## Features
-
-- **AI-powered transaction categorization and receipt scanning**
-- Real-time financial tracking across multiple accounts
-- Secure authentication and user management (Clerk)
-- Interactive charts and personalized monthly reports
-- Responsive, accessible UI with Shadcn UI and Tailwind CSS
-
----
-
-## Getting Started
-
-### 1. Clone the Repository
-
-```sh
-git clone https://github.com/your-username/wealth-finance-platform.git
-cd wealth-finance-platform
-```
-
-### 2. Install Dependencies
-
-```sh
-npm install
-# or
-yarn install
-```
-
-### 3. Configure Environment Variables
-
-Create a `.env` file in the root directory and add the following variables:
+### Make sure to create a `.env` file with following variables -
 
 ```
 DATABASE_URL=
@@ -51,7 +17,9 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/onboarding
 NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/onboarding
 
 GEMINI_API_KEY=
+
 RESEND_API_KEY=
+
 ARCJET_KEY=
 ```
 
