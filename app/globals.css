@@ -1,7 +1,9 @@
 /* styles/globals.css */
 /* Removed Tailwind directives because build tool does not support them or Tailwind is not installed. */
 /* If you intend to use Tailwind, install it and configure your build tool accordingly. */
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @layer base {
   /* This block defines the colors for LIGHT mode */
   :root {
