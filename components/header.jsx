@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Button } from "./ui/button";
-import { PenBox, LayoutDashboard } from "lucide-react";
+import { PenBox, LayoutDashboard, FileText } from "lucide-react";
 import Link from "next/link";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
@@ -10,7 +10,7 @@ import { DarkModeToggle } from "./DarkModeToggle";
 const Header = () => {
   return (
     <header className="fixed top-0 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md z-50 border-b dark:border-slate-700">
-     <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
+      <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/">
           <Image
             src={"/logo.png"}
@@ -24,8 +24,11 @@ const Header = () => {
         {/* Navigation Links - Different for signed in/out users */}
         <div className="hidden md:flex items-center space-x-8">
           <SignedOut>
-           <a href="#features" className="text-gray-600 dark:text-gray-300 hover:text-blue-600">
-            Features
+            <a
+              href="#features"
+              className="text-gray-600 dark:text-gray-300 hover:text-blue-600"
+            >
+              Features
             </a>
             <a
               href="#testimonials"
@@ -46,6 +49,15 @@ const Header = () => {
               <Button variant="outline">
                 <LayoutDashboard size={18} />
                 <span className="hidden md:inline">Dashboard</span>
+              </Button>
+            </Link>
+            <Link
+              href="/documents"
+              className="text-gray-600 hover:text-blue-600 flex items-center gap-2"
+            >
+              <Button variant="outline" className="flex items-center gap-1.5">
+                <FileText size={18} className="text-purple-600" />
+                <span className="hidden md:inline">Documents</span>
               </Button>
             </Link>
             <a href="/transaction/create">

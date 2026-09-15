@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Plus } from "lucide-react";
 import { DashboardOverview } from "./_components/transaction-overview";
 import { checkUser } from "@/lib/checkUser";
+import { QuickLogBar } from "@/components/quick-log-bar";
 
 export default async function DashboardPage() {
   await checkUser();
@@ -27,6 +28,9 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
+      {/* AI Quick-Log Input Bar */}
+      <QuickLogBar />
+
       {/* Budget Progress */}
       <BudgetProgress
         initialBudget={budgetData?.budget}

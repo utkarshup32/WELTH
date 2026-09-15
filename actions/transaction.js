@@ -69,11 +69,14 @@ export async function createTransaction(data) {
     const balanceChange = data.type === "EXPENSE" ? -data.amount : data.amount;
     const newBalance = account.balance.toNumber() + balanceChange;
 
+    // Filter out non-schema attributes if passed
+    const { accountName, ...transactionData } = data;
+
     // Create transaction and update account balance
     const transaction = await db.$transaction(async (tx) => {
       const newTransaction = await tx.transaction.create({
         data: {
-          ...data,
+          ...transactionData,
           userId: user.id,
           nextRecurringDate:
             data.isRecurring && data.recurringInterval
@@ -228,40 +231,57 @@ export async function getUserTransactions(query = {}) {
 }
 
 // Scan Receipt
+// Scan Receipt
 export async function scanReceipt(file) {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY is not defined in environment variables");
+    }
 
-    // Convert File to ArrayBuffer
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({
+      model: "gemini-3.6-flash",
+      generationConfig: {
+        responseMimeType: "application/json",
+      },
+    });
+
+    // Convert File to ArrayBuffer and then to Base64
     const arrayBuffer = await file.arrayBuffer();
-    // Convert ArrayBuffer to Base64
     const base64String = Buffer.from(arrayBuffer).toString("base64");
 
+    // Fallback if file.type is empty or generic
+    const mimeType =
+      file.type && file.type !== "application/octet-stream"
+        ? file.type
+        : "image/jpeg";
+
     const prompt = `
-      Analyze this receipt image and extract the following information in JSON format:
-      - Total amount (just the number)
-      - Date (in ISO format)
-      - Description or items purchased (brief summary)
-      - Merchant/store name
-      - Suggested category (one of: housing,transportation,groceries,utilities,entertainment,food,shopping,healthcare,education,personal,travel,insurance,gifts,bills,other-expense )
-      
-      Only respond with valid JSON in this exact format:
+      Analyze this receipt image and extract the following information:
+      - Total amount (numeric value only)
+      - Date (ISO format string)
+      - Description or summary of items purchased
+      - Merchant or store name
+      - Suggested category (one of: housing, transportation, groceries, utilities, entertainment, food, shopping, healthcare, education, personal, travel, insurance, gifts, bills, other-expense)
+
+      Format output as a JSON object with keys:
       {
         "amount": number,
-        "date": "ISO date string",
+        "date": "ISO string",
         "description": "string",
         "merchantName": "string",
         "category": "string"
       }
 
-      If its not a recipt, return an empty object
+      If it is not a valid receipt, return an empty JSON object: {}
     `;
 
     const result = await model.generateContent([
       {
         inlineData: {
           data: base64String,
-          mimeType: file.type,
+          mimeType: mimeType,
         },
       },
       prompt,
@@ -269,27 +289,35 @@ export async function scanReceipt(file) {
 
     const response = await result.response;
     const text = response.text();
-    const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
 
     try {
-      const data = JSON.parse(cleanedText);
+      const data = JSON.parse(text);
+
+      if (!data || Object.keys(data).length === 0) {
+        throw new Error("Could not detect receipt information");
+      }
+
       return {
-        amount: parseFloat(data.amount),
-        date: new Date(data.date),
-        description: data.description,
-        category: data.category,
-        merchantName: data.merchantName,
+        amount: parseFloat(data.amount) || 0,
+        date: data.date ? new Date(data.date) : new Date(),
+        description: data.description || "",
+        category: data.category || "other-expense",
+        merchantName: data.merchantName || "",
       };
     } catch (parseError) {
-      console.error("Error parsing JSON response:", parseError);
+      console.error(
+        "Error parsing JSON response:",
+        parseError,
+        "Raw output:",
+        text,
+      );
       throw new Error("Invalid response format from Gemini");
     }
   } catch (error) {
     console.error("Error scanning receipt:", error);
-    throw new Error("Failed to scan receipt");
+    throw new Error(error.message || "Failed to scan receipt");
   }
 }
-
 // Helper function to calculate next recurring date
 function calculateNextRecurringDate(startDate, interval) {
   const date = new Date(startDate);

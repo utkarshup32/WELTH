@@ -1,90 +1,145 @@
-# Full Stack AI Fianace Platform with Next JS, Supabase, Tailwind, Prisma, Inngest, ArcJet, Shadcn UI Tutorial 🔥🔥
+# WELTH — Full-Stack AI Wealth & Financial Intelligence Platform
 
-
-<img width="1470" alt="Screenshot 2024-12-10 at 9 45 45 AM" src="https://github.com/user-attachments/assets/1bc50b85-b421-4122-8ba4-ae68b2b61432">
-# 🚀 AI Finance Dashboard
-
-**An AI-augmented personal finance platform** built with Next.js, Gemini AI, and a modern full-stack stack—tracking transactions, visualizing spending patterns, and generating insights via large‑language models.
+A modern, full-stack personal finance and wealth management platform powered by **Next.js 15, Supabase PostgreSQL, Prisma ORM, Google Gemini AI, pgvector, Clerk, and Inngest**.
 
 ---
 
-## 🧠 Project Overview
+## ✨ Features
 
-This project offers secure, real‑time expense tracking with intuitive dashboards. Gemini‑based AI modules suggest budgets, summarize spending trends, and categorize expenses intelligently. Built to scale, it balances speed, accessibility, and type-safe data integrity.
+### 1. 🤖 WELTH AI Copilot
+- **Live Financial Context Grounding**: Conversational assistant with direct access to user accounts, monthly budgets, and 30-day transaction history.
+- **RAG-Powered Answering**: Accurately queries both structured financial data (balances, category aggregations) and unstructured documents.
+- **Proactive Insights**: Recommends budget allocations, alerts users of account strain or negative balances, and answers "Can I afford this?" queries.
+- **Interactive Floating Launcher**: Persistent, responsive assistant drawer available across all dashboard pages.
 
----
+### 2. 📄 Document Vault & AI Insights (pgvector RAG)
+- **Document Ingestion**: Upload bank statements, invoices, tax forms, and receipts (PDF, text, CSV, images).
+- **Multimodal OCR**: Powered by Gemini 3.6 Flash to accurately extract tabular statements and transaction line items.
+- **Semantic Vector Search**: Chunks text and generates 3072-dimensional embeddings via `gemini-embedding-001` stored in Supabase `pgvector`.
+- **Direct Document Querying**: Search across all uploaded financial documents using cosine similarity (`<=>`) to find specific deductions, interest rates, or fees.
 
-## 🧩 Features
+### 3. ⚡ Conversational Quick-Log
+- **Natural Language Transaction Entry**: Type freeform text on your dashboard (e.g. *"Spent $35 on groceries with Personal card"* or *"Earned $500 freelancing"*).
+- **Entity Extraction**: Automatically extracts amount, transaction type (`EXPENSE`/`INCOME`), category, relative dates (*"yesterday"*, *"last Friday"*), and matches the user's specific account.
+- **Instant Preview & Confirmation**: Review parsed details before one-click logging to the database.
 
-- 📌 **Expense logging**, budget setting, and category management  
-- 📈 Interactive charts show trends over time  
-- 💡 **Automated AI insights**, summaries, and recommendations  
-- 🔄 **Real‑time updates** via Server Components, API routes, or Server Actions  
-- 🔐 Authentication via **Next Auth** (Google, email/password, JWT)  
-- 🚀 Hosted on Vercel or Netlify with CI/CD support  
-- 🧪 Local development with **SQLite**—production-ready on **PostgreSQL**
+### 4. 🧾 AI Receipt Scanner
+- Upload receipt photos or scans to automatically extract the vendor, total amount, category, and date directly into the transaction form.
+
+### 5. 📊 Comprehensive Financial Management
+- **Multi-Account Tracking**: Manage Checking, Savings, and Investment accounts with real-time balance calculations.
+- **Budget Monitoring**: Set monthly spending limits with visual progress bars and alert thresholds.
+- **Visual Analytics**: Interactive Recharts breakdown of income vs. expenses and category spending trends.
+- **Background Cron Jobs (Inngest)**:
+  - Daily recurring transaction processing.
+  - Automated budget threshold alert checks.
+  - Monthly AI financial performance summary emails via Resend.
+- **Security & Rate Limiting**: Protected with ArcJet rate limiting and Clerk authentication.
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer               | Technology       | Rationale |
-|---------------------|------------------|-----------|
-| Framework           | **Next.js**      | Server‑side rendering boosts first‑load performance and **SEO** while reducing client‑side bundle size, enabling dynamic dashboards and personalized pages. :contentReference[oaicite:1]{index=1} |
-| Styling             | **Tailwind CSS** | A **utility‑first** approach lets you compose styles directly in markup for fast, consistent, and responsive UI development. :contentReference[oaicite:2]{index=2} |
-| UI Components       | **shadcn/ui**    | A curated, open‑code component set compatible with Tailwind and AI tooling—fully composable and easy to customize. :contentReference[oaicite:3]{index=3} |
-| ORM & Database      | **Prisma Client**| Auto‑generated client based on schema provides **TypeScript‑safe, auto‑completion**, and migrations for evolving your DB smoothly. :contentReference[oaicite:4]{index=4} |
-| AI Engine           | **Gemini AI**    | Google DeepMind’s multimodal, reasoning‑enabled model (2.5 Pro) that handles text, code, numeric data and generates finance‑specific insights. :contentReference[oaicite:5]{index=5} |
-| Data Store          | SQLite / PostgreSQL | Easy dev setup + robust scale for transactional finance data |
-| Auth Layer          | Next Auth        | OAuth, email verification, session handling with TypeScript support |
-| Deployment          | Vercel / Netlify | Serverless previews with instant build + automatic Prisma migrations |
+- **Framework**: [Next.js 15 (App Router)](https://nextjs.org/) + [React 19](https://react.dev/)
+- **Database & Vectors**: [Supabase PostgreSQL](https://supabase.com/) with [`pgvector`](https://github.com/pgvector/pgvector)
+- **ORM**: [Prisma 6](https://www.prisma.io/)
+- **AI & Embeddings**: [Google Gemini API](https://ai.google.dev/) (`gemini-3.6-flash` + `gemini-embedding-001`)
+- **Authentication**: [Clerk](https://clerk.com/)
+- **Background Workflows & Crons**: [Inngest](https://www.inngest.com/)
+- **Security & Shielding**: [ArcJet](https://arcjet.com/)
+- **Styling & UI Components**: [Tailwind CSS](https://tailwindcss.com/) + [Shadcn UI](https://ui.shadcn.com/) + [Radix UI](https://www.radix-ui.com/)
+- **Charts**: [Recharts](https://recharts.org/)
+- **Email Delivery**: [Resend](https://resend.com/) + [React Email](https://react.email/)
 
 ---
 
-## 🏗️ Project Architecture
+## 🚀 Getting Started
 
+### 1. Clone & Install Dependencies
 
-### Make sure to create a `.env` file with following variables -
-
+```bash
+git clone https://github.com/utkarshup32/WELTH.git
+cd welth
+npm install
 ```
-DATABASE_URL=
-DIRECT_URL=
 
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-CLERK_SECRET_KEY=
+### 2. Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+# Supabase PostgreSQL (Transaction Pooler & Direct URL)
+DATABASE_URL="postgresql://postgres.[PROJECT_REF]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/postgres?pgbouncer=true"
+DIRECT_URL="postgresql://postgres:[PASSWORD]@db.[PROJECT_REF].supabase.co:5432/postgres"
+
+# Clerk Authentication
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+CLERK_SECRET_KEY=sk_test_...
 NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
 NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/onboarding
-NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/onboarding
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
 
-GEMINI_API_KEY=
+# Google Gemini AI (Powers WELTH AI, Embeddings & OCR)
+GEMINI_API_KEY=AIzaSy...
 
-RESEND_API_KEY=
+# ArcJet Security
+ARCJET_KEY=ajkey_...
 
-ARCJET_KEY=
+# Resend (Email Reports)
+RESEND_API_KEY=re_...
 ```
 
-### 4. Database Setup
+### 3. Database & pgvector Setup
 
-Ensure your Supabase project is set up and `DATABASE_URL` is configured.
+Enable the `vector` extension in your Supabase SQL Editor:
 
-```sh
+```sql
+CREATE EXTENSION IF NOT EXISTS vector;
+```
+
+Generate Prisma Client and synchronize schema:
+
+```bash
 npx prisma generate
 npx prisma db push
-# or for full migrations:
-# npx prisma migrate dev --name init
 ```
 
-### 5. Run the Development Server
+### 4. Run Development Server
 
-```sh
+```bash
 npm run dev
 ```
 
-The application will be available at [HERE](https://welth-nowb.vercel.app/).
+The application will be accessible at [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## License
+## 📁 Project Structure
 
-Distributed under the MIT License. See the [LICENSE](LICENSE) file for details.
+```
+WELTH/
+├── actions/             # Server actions (transactions, documents, quick-log, budget)
+├── app/
+│   ├── (auth)/          # Clerk sign-in and sign-up pages
+│   ├── (main)/
+│   │   ├── dashboard/   # Main dashboard overview & Quick-Log bar
+│   │   ├── documents/   # Document Vault & Semantic Search
+│   │   └── transaction/ # Manual & AI receipt scan entry
+│   └── api/
+│       ├── chat/        # WELTH AI Copilot API route (grounded RAG + context)
+│       └── inngest/     # Inngest background functions & crons
+├── components/          # Reusable UI widgets (WELTH AI drawer, Quick-Log bar, header)
+├── lib/
+│   ├── inngest/         # Inngest clients and scheduled functions
+│   ├── prisma.js        # Global Prisma client instance
+│   └── vector.js        # Gemini embeddings & pgvector search helpers
+└── prisma/
+    └── schema.prisma    # PostgreSQL database schema (Users, Accounts, Transactions, Documents, Vectors)
+```
+
+---
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
