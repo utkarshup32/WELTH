@@ -7,26 +7,31 @@ A modern, full-stack personal finance and wealth management platform powered by 
 ## ✨ Features
 
 ### 1. 🤖 WELTH AI Copilot
+
 - **Live Financial Context Grounding**: Conversational assistant with direct access to user accounts, monthly budgets, and 30-day transaction history.
 - **RAG-Powered Answering**: Accurately queries both structured financial data (balances, category aggregations) and unstructured documents.
 - **Proactive Insights**: Recommends budget allocations, alerts users of account strain or negative balances, and answers "Can I afford this?" queries.
 - **Interactive Floating Launcher**: Persistent, responsive assistant drawer available across all dashboard pages.
 
 ### 2. 📄 Document Vault & AI Insights (pgvector RAG)
+
 - **Document Ingestion**: Upload bank statements, invoices, tax forms, and receipts (PDF, text, CSV, images).
 - **Multimodal OCR**: Powered by Gemini 3.6 Flash to accurately extract tabular statements and transaction line items.
 - **Semantic Vector Search**: Chunks text and generates 3072-dimensional embeddings via `gemini-embedding-001` stored in Supabase `pgvector`.
 - **Direct Document Querying**: Search across all uploaded financial documents using cosine similarity (`<=>`) to find specific deductions, interest rates, or fees.
 
 ### 3. ⚡ Conversational Quick-Log
-- **Natural Language Transaction Entry**: Type freeform text on your dashboard (e.g. *"Spent $35 on groceries with Personal card"* or *"Earned $500 freelancing"*).
-- **Entity Extraction**: Automatically extracts amount, transaction type (`EXPENSE`/`INCOME`), category, relative dates (*"yesterday"*, *"last Friday"*), and matches the user's specific account.
+
+- **Natural Language Transaction Entry**: Type freeform text on your dashboard (e.g. _"Spent $35 on groceries with Personal card"_ or _"Earned $500 freelancing"_).
+- **Entity Extraction**: Automatically extracts amount, transaction type (`EXPENSE`/`INCOME`), category, relative dates (_"yesterday"_, _"last Friday"_), and matches the user's specific account.
 - **Instant Preview & Confirmation**: Review parsed details before one-click logging to the database.
 
 ### 4. 🧾 AI Receipt Scanner
+
 - Upload receipt photos or scans to automatically extract the vendor, total amount, category, and date directly into the transaction form.
 
 ### 5. 📊 Comprehensive Financial Management
+
 - **Multi-Account Tracking**: Manage Checking, Savings, and Investment accounts with real-time balance calculations.
 - **Budget Monitoring**: Set monthly spending limits with visual progress bars and alert thresholds.
 - **Visual Analytics**: Interactive Recharts breakdown of income vs. expenses and category spending trends.
